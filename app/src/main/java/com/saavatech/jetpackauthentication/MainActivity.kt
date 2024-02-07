@@ -6,11 +6,19 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.saavatech.jetpackauthentication.enums.MainRoute
+import com.saavatech.jetpackauthentication.presentation.login.LoginScreen
+import com.saavatech.jetpackauthentication.presentation.register.RegisterScreen
+import com.saavatech.jetpackauthentication.presentation.welcome.WelcomeScreen
 import com.saavatech.jetpackauthentication.ui.theme.JetPackAuthenticationTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    DefaultNavigation()
                 }
             }
         }
@@ -30,17 +38,40 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun DefaultNavigation(){
+   val navController: NavHostController = rememberNavController()
+    val destinationsNavigator = DestinationsNavigator(navController)
+
+    NavHost(navController = navController, startDestination = Destinations.Login.route) {
+        composable(Destinations.Login.route) {
+            LoginScreen(destinationsNavigator)
+        }
+
+        composable(Destinations.Register.route){
+            WelcomeScreen(destinationsNavigator)
+        }
+
+        composable(MainRoute.Register.name){
+            RegisterScreen(destinationsNavigator)
+        }
+        // Add other destinations here if needed
+    }
+
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    JetPackAuthenticationTheme {
-        Greeting("Android")
+
+class DestinationsNavigator(private val navController: NavHostController) {
+    fun navigateTo(destination: Destinations) {
+        navController.navigate(destination.route)
     }
+
+    fun navigateUp() {
+        navController.popBackStack()
+    }
+}
+
+sealed class Destinations(val route: String) {
+    data object Login : Destinations("login")
+    data object Register : Destinations("Register")
+    // Define other destinations here
 }

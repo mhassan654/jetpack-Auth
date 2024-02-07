@@ -11,6 +11,7 @@ import com.saavatech.jetpackauthentication.domain.use_case.RegisterUseCase
 import com.saavatech.jetpackauthentication.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,6 +21,13 @@ class AuthViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val registerUseCase: RegisterUseCase
 ): ViewModel() {
+
+    private val _eventsFlow = MutableSharedFlow<UiEvents>()
+    val eventsFlow: SharedFlow<UiEvents> = _eventsFlow
+
+    // Function to trigger navigation
+    private val _navigationEvents = MutableSharedFlow<UiEvents.NavigationEvent>()
+    val navigationEvents: SharedFlow<UiEvents.NavigationEvent> = _navigationEvents
 
     private var _loginState  = mutableStateOf(AuthState())
     val loginState: State<AuthState> = _loginState

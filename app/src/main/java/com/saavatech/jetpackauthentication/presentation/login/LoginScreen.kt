@@ -25,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -32,6 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -50,7 +52,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.saavatech.jetpackauthentication.Destinations
+import com.saavatech.jetpackauthentication.DestinationsNavigator
 import com.saavatech.jetpackauthentication.common.UiEvents
+import com.saavatech.jetpackauthentication.enums.MainRoute
 import com.saavatech.jetpackauthentication.presentation.AuthViewModel
 import com.saavatech.jetpackauthentication.ui.theme.PurpleBg
 import kotlinx.coroutines.flow.collectLatest
@@ -58,37 +63,39 @@ import kotlinx.coroutines.flow.collectLatest
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun LoginScreen(
-    navController: NavHostController,
+    navController: DestinationsNavigator,
     viewModel: AuthViewModel = hiltViewModel()
 ){
 
     val emailState = viewModel.emailState.value
     val passwordState = viewModel.passwordState.value
     val loginState = viewModel.loginState.value
-//    val scaffoldState = rememberScalfoldState()
+    val snackbarHostState = remember {
+         SnackbarHostState()
+    }
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
-//    LaunchedEffect(key1 = true) {
-//        viewModel.eventFlow.collectLatest { event ->
-//            when (event) {
-//                is UiEvents.SnackbarEvent -> {
-//                    scaffoldState.snackbarHostState.showSnackbar(
-//                        message = event.message,
-//                        duration = SnackbarDuration.Short
-//                    )
-//                }
-//                is UiEvents.NavigationEvent -> {
-//                    navController.navigate(event.route)
-//                    scaffoldState.snackbarHostState.showSnackbar(
-//                        message = "Login Successful",
-//                        duration = SnackbarDuration.Short
-//                    )
-//                }
-//
-//                else -> {}
-//            }
-//        }
-//    }
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is UiEvents.SnackbarEvent -> {
+                    snackbarHostState.showSnackbar(
+                        message = event.message,
+                        duration = SnackbarDuration.Short
+                    )
+                }
+                is UiEvents.NavigationEvent -> {
+                    navController.navigateTo(Destinations.Login)
+                    snackbarHostState.showSnackbar(
+                        message = "Login Successful",
+                        duration = SnackbarDuration.Short
+                    )
+                }
+
+                else -> {}
+            }
+        }
+    }
 
     Scaffold {
         Column(
@@ -225,8 +232,8 @@ fun LoginScreen(
             }
             TextButton(
                 onClick = {
-                    navController.popBackStack()
-                    navController.navigate("Register") //RegisterScreenDestination
+                    navController.navigateUp()
+                    navController.navigateTo(Destinations.Register) //RegisterScreenDestination
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
