@@ -11,6 +11,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.saavatech.jetpackauthentication.Destinations
 import com.saavatech.jetpackauthentication.DestinationsNavigator
 import com.saavatech.jetpackauthentication.common.UiEvents
 import com.saavatech.jetpackauthentication.presentation.AuthViewModel
@@ -41,7 +42,7 @@ fun RegisterScreen(
                     )
                 }
                 is UiEvents.NavigationEvent -> {
-                    navController.navigateTo(event.route)
+                    navController.navigateTo(Destinations.Login)
                     snackbarHostState.showSnackbar(
                         message = "Register Successful",
                         duration = SnackbarDuration.Short

@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.saavatech.jetpackauthentication.Destinations
 import com.saavatech.jetpackauthentication.DestinationsNavigator
 import com.saavatech.jetpackauthentication.R
 import com.saavatech.jetpackauthentication.enums.MainRoute
@@ -82,7 +83,7 @@ fun WelcomeScreen(navController: DestinationsNavigator){
 
             Button(
                 onClick = {
-                    navController.navigateTo(MainRoute.Register.name)
+                    navController.navigateTo(Destinations.Register)
                 },
                 // Uses ButtonDefaults.ContentPadding by default
                 contentPadding = PaddingValues(
@@ -104,7 +105,7 @@ fun WelcomeScreen(navController: DestinationsNavigator){
             }
             Button(
                 onClick = {
-                    navController.navigateTo(MainRoute.Login.name)
+                    navController.navigateTo(Destinations.Login)
                 },
                 // Uses ButtonDefaults.ContentPadding by default
                 contentPadding = PaddingValues(

@@ -18,8 +18,9 @@ import com.saavatech.jetpackauthentication.presentation.login.LoginScreen
 import com.saavatech.jetpackauthentication.presentation.register.RegisterScreen
 import com.saavatech.jetpackauthentication.presentation.welcome.WelcomeScreen
 import com.saavatech.jetpackauthentication.ui.theme.JetPackAuthenticationTheme
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
