@@ -12,6 +12,7 @@ class RegisterUseCase @Inject constructor(
         email:String,
         password:String
     ): AuthResult {
+        println(email)
 
         val emailError = if (email.isBlank()) "Username cannot be blank" else null
         val passwordError = if (password.isBlank()) "Password cannot be blank" else null
