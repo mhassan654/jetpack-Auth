@@ -53,6 +53,10 @@ fun DefaultNavigation(){
             WelcomeScreen(destinationsNavigator)
         }
 
+        composable(Destinations.Home.route){
+            HomeScreen()
+        }
+
         composable(MainRoute.Register.name){
             RegisterScreen(destinationsNavigator)
         }
@@ -75,5 +79,6 @@ class DestinationsNavigator(private val navController: NavHostController) {
 sealed class Destinations(val route: String) {
     data object Login : Destinations("login")
     data object Register : Destinations("Register")
+    data object Home : Destinations("Home")
     // Define other destinations here
 }

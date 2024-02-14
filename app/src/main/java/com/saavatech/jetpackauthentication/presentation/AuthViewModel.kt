@@ -1,9 +1,12 @@
 package com.saavatech.jetpackauthentication.presentation
 
+import android.util.JsonReader
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
+import com.saavatech.jetpackauthentication.Destinations
 import com.saavatech.jetpackauthentication.common.TextFieldState
 import com.saavatech.jetpackauthentication.common.UiEvents
 import com.saavatech.jetpackauthentication.domain.use_case.LoginUseCase
@@ -11,15 +14,17 @@ import com.saavatech.jetpackauthentication.domain.use_case.RegisterUseCase
 import com.saavatech.jetpackauthentication.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.io.StringReader
 import javax.inject.Inject
+
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    private val registerUseCase: RegisterUseCase
+    private val registerUseCase: RegisterUseCase,
 ): ViewModel() {
 
 //    private val _eventsFlow = MutableSharedFlow<UiEvents>()
@@ -108,7 +113,15 @@ class AuthViewModel @Inject constructor(
                 password = passwordState.value.text
             )
 
-//            println(registerResult)
+            // Create a JsonReader instance with StringReader
+            // Create a JsonReader instance with StringReader
+            val reader = JsonReader(StringReader(registerResult.result?.message))
+
+            // Set lenient mode to true to accept malformed JSON
+            reader.isLenient = true;
+            val jetpack = reader.nextString()
+
+            Timber.tag("test results").d(jetpack)
 
             _loginState.value = loginState.value.copy(isLoading = false)
 
@@ -119,10 +132,12 @@ class AuthViewModel @Inject constructor(
                 _passwordState.value = passwordState.value.copy(error = registerResult.passwordError)
             }
 
+            Timber.tag("results data").d(registerResult.result)
+
             when(registerResult.result){
                 is Resource.Success->{
                     _eventFlow.emit(
-                        UiEvents.NavigationEvent("home")//HomeScreenDestination.route
+                        UiEvents.NavigationEvent("Home")//HomeScreenDestination.route
                     )
                 }
                 is Resource.Error->{
@@ -131,10 +146,16 @@ class AuthViewModel @Inject constructor(
                     )
                 }
                 else -> {
-
+                    UiEvents.SnackbarEvent(
+                        registerResult.result?.message ?: "Error!"
+                    )
                 }
             }
         }
     }
+
+}
+
+private fun Timber.Tree.d(result: Resource<Unit>?) {
 
 }
