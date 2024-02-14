@@ -3,8 +3,9 @@ package com.saavatech.jetpackauthentication.domain.use_case
 import com.saavatech.jetpackauthentication.data.remote.request.AuthRequest
 import com.saavatech.jetpackauthentication.domain.model.AuthResult
 import com.saavatech.jetpackauthentication.domain.repository.AuthRepository
+import javax.inject.Inject
 
-class RegisterUseCase(
+class RegisterUseCase @Inject constructor(
     private val repository: AuthRepository
 ) {
     suspend operator fun invoke(

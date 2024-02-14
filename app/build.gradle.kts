@@ -1,12 +1,13 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    //    kotlin("jvm")
+    kotlin("kapt") //version "1.9.0"
 
-    kotlin("kapt") //version "1.9.22"
-//    id("com.google.dagger.hilt.android")
-    id("com.google.devtools.ksp") version "1.8.21-1.0.11"
-    id("com.google.dagger.hilt.android") //version "2.50" apply false
+    id("com.google.dagger.hilt.android")
 }
+
+
 
 android {
     namespace = "com.saavatech.jetpackauthentication"
@@ -82,7 +83,7 @@ dependencies {
 
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.12")
 
-    implementation("androidx.compose.material:material-icons-extended:1.6.0")
+    implementation("androidx.compose.material:material-icons-extended:1.6.1")
     implementation("androidx.hilt:hilt-navigation:1.1.0")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0-RC2")
@@ -94,9 +95,10 @@ dependencies {
 
     implementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
+//    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
 
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
