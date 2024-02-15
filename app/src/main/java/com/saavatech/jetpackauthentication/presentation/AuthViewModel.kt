@@ -113,16 +113,7 @@ class AuthViewModel @Inject constructor(
                 password = passwordState.value.text
             )
 
-            // Create a JsonReader instance with StringReader
-            // Create a JsonReader instance with StringReader
-            val reader = JsonReader(StringReader(registerResult.result?.message))
-
             // Set lenient mode to true to accept malformed JSON
-            reader.isLenient = true;
-            val jetpack = reader.nextString()
-
-            Timber.tag("test results").d(jetpack)
-
             _loginState.value = loginState.value.copy(isLoading = false)
 
             if (registerResult.emailError != null){
@@ -132,7 +123,7 @@ class AuthViewModel @Inject constructor(
                 _passwordState.value = passwordState.value.copy(error = registerResult.passwordError)
             }
 
-            Timber.tag("results data").d(registerResult.result)
+            Timber.tag("results data").d(registerResult.result?.message.toString())
 
             when(registerResult.result){
                 is Resource.Success->{
@@ -156,6 +147,3 @@ class AuthViewModel @Inject constructor(
 
 }
 
-private fun Timber.Tree.d(result: Resource<Unit>?) {
-
-}

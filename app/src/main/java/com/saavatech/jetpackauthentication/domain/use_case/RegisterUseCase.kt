@@ -34,15 +34,13 @@ class RegisterUseCase @Inject constructor(
             password = password.trim()
         )
 
-        Timber.tag("register request body:").d(registerRequest.toString())
-        val  results = AuthResult(
+        val  resp = AuthResult(
             result = repository.register(registerRequest)
         )
+//
+        Timber.tag("register response message:").d(resp.result?.message) //resp.result?.message.toString()
+//        Timber.tag("register response data:").d(resp.result?.data.toString())
 
-        Timber.tag("register response:").d(results.result?.message.toString())
-
-        return AuthResult(
-            result = repository.register(registerRequest)
-        )
+        return resp
     }
 }
