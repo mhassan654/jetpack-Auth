@@ -3,6 +3,7 @@ package com.saavatech.jetpackauthentication.data.repository
 import com.saavatech.jetpackauthentication.data.local.AuthPreferences
 import com.saavatech.jetpackauthentication.data.models.ApiService
 import com.saavatech.jetpackauthentication.data.remote.request.AuthRequest
+import com.saavatech.jetpackauthentication.data.remote.request.RegisterRequest
 import com.saavatech.jetpackauthentication.domain.repository.AuthRepository
 import com.saavatech.jetpackauthentication.util.Resource
 import retrofit2.HttpException
@@ -15,6 +16,8 @@ class AuthRespositoryImpl(
     override suspend fun login(loginRequest: AuthRequest): Resource<Unit> {
         return try {
             val response = apiService.loginUser(loginRequest)
+
+            println(response)
             preferences.saveAuthToken(response.token)
             Resource.Success(Unit)
         }catch (e: IOException){
@@ -24,7 +27,7 @@ class AuthRespositoryImpl(
         }
     }
 
-    override suspend fun register(registerRequest: AuthRequest): Resource<Unit> {
+    override suspend fun register(registerRequest: RegisterRequest): Resource<Unit> {
         return try {
             val response = apiService.registerUser(registerRequest)
             preferences.saveAuthToken(response.token)

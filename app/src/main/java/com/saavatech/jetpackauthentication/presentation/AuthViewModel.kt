@@ -1,12 +1,9 @@
 package com.saavatech.jetpackauthentication.presentation
 
-import android.util.JsonReader
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
-import com.saavatech.jetpackauthentication.Destinations
 import com.saavatech.jetpackauthentication.common.TextFieldState
 import com.saavatech.jetpackauthentication.common.UiEvents
 import com.saavatech.jetpackauthentication.domain.use_case.LoginUseCase
@@ -17,7 +14,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.io.StringReader
 import javax.inject.Inject
 
 
@@ -89,7 +85,7 @@ class AuthViewModel @Inject constructor(
             when(loginResult.result){
                 is Resource.Success->{
                     _eventFlow.emit(
-                        UiEvents.NavigationEvent("home")//HomeScreenDestination.route
+                        UiEvents.NavigationEvent("Home")//HomeScreenDestination.route
                     )
                 }
                 is Resource.Error->{
@@ -109,16 +105,31 @@ class AuthViewModel @Inject constructor(
             _loginState.value = loginState.value.copy(isLoading = false)
 
             val registerResult = registerUseCase(
+                firstName = firstName.value.text,
+                lastName = lastName.value.text,
                 email = emailState.value.text,
-                password = passwordState.value.text
+                password = passwordState.value.text,
+                password_confirmation = passwordState.value.text,
             )
 
             // Set lenient mode to true to accept malformed JSON
             _loginState.value = loginState.value.copy(isLoading = false)
 
+            // set email error in state
             if (registerResult.emailError != null){
                 _emailState.value=emailState.value.copy(error = registerResult.emailError)
             }
+
+            // set first name state error
+            if (registerResult.firstNameError != null){
+                _firstName.value=firstName.value.copy(error = registerResult.firstNameError)
+            }
+
+            // set last name error
+            if (registerResult.lastNameError != null){
+                _lastName.value=lastName.value.copy(error = registerResult.lastNameError)
+            }
+
             if (registerResult.passwordError != null){
                 _passwordState.value = passwordState.value.copy(error = registerResult.passwordError)
             }

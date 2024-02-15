@@ -71,6 +71,7 @@ fun RegisterScreen(
     val snackbarHostState = remember {
         SnackbarHostState()
     }
+
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(key1 = true) {
@@ -141,11 +142,13 @@ fun RegisterScreen(
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                 ),
-                isError = emailState.error != null
+                isError = firstNameState.error != null
             )
-            if (emailState.error != "") {
+
+            //set first name error validation
+            if (firstNameState.error != "") {
                 Text(
-                    text = emailState.error ?: "",
+                    text = firstNameState.error ?: "",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.error,
                     textAlign = TextAlign.End,
@@ -165,11 +168,13 @@ fun RegisterScreen(
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                 ),
-                isError = emailState.error != null
+                isError = lastNameState.error != null
             )
-            if (emailState.error != "") {
+
+            // set last name error validation
+            if (lastNameState.error != "") {
                 Text(
-                    text = emailState.error ?: "",
+                    text = lastNameState.error ?: "",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.error,
                     textAlign = TextAlign.End,

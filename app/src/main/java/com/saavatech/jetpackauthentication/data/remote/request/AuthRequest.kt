@@ -10,3 +10,13 @@ data class AuthRequest(
     @SerializedName("password")
     var password: String
 )
+
+
+data class RegisterRequest(
+
+    @SerializedName("email")  var email: String,
+    @SerializedName("first_name")  var firstName: String,
+    @SerializedName("last_name")  var lastName: String,
+    @SerializedName("password")   var password: String,
+    @SerializedName("password_confirmation")   var password_confirmation: String
+)
