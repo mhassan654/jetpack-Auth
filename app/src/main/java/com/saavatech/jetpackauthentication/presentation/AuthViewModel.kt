@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.saavatech.jetpackauthentication.common.TextFieldState
 import com.saavatech.jetpackauthentication.common.UiEvents
 import com.saavatech.jetpackauthentication.domain.use_case.LoginUseCase
@@ -11,6 +12,7 @@ import com.saavatech.jetpackauthentication.domain.use_case.RegisterUseCase
 import com.saavatech.jetpackauthentication.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -23,12 +25,13 @@ class AuthViewModel @Inject constructor(
     private val registerUseCase: RegisterUseCase,
 ): ViewModel() {
 
-//    private val _eventsFlow = MutableSharedFlow<UiEvents>()
-//    val eventsFlow: SharedFlow<UiEvents> = _eventsFlow
+
+    private val _eventsFlow = MutableSharedFlow<UiEvents>()
+    val eventsFlow: SharedFlow<UiEvents> = _eventsFlow
 //
 //    // Function to trigger navigation
-//    private val _navigationEvents = MutableSharedFlow<UiEvents.NavigationEvent>()
-//    val navigationEvents: SharedFlow<UiEvents.NavigationEvent> = _navigationEvents
+    private val _navigationEvents = MutableSharedFlow<UiEvents.NavigationEvent>()
+    val navigationEvents: SharedFlow<UiEvents.NavigationEvent> = _navigationEvents
 
     private var _loginState  = mutableStateOf(AuthState())
     val loginState: State<AuthState> = _loginState
@@ -66,7 +69,7 @@ class AuthViewModel @Inject constructor(
 
     fun loginUser(){
         viewModelScope.launch {
-            _loginState.value = loginState.value.copy(isLoading = false)
+            _loginState.value = loginState.value.copy(isLoading = true)
 
             val loginResult = loginUseCase(
                 email = emailState.value.text,
@@ -82,20 +85,21 @@ class AuthViewModel @Inject constructor(
                 _passwordState.value = passwordState.value.copy(error = loginResult.passwordError)
             }
 
-            when(loginResult.result){
-                is Resource.Success->{
-                    _eventFlow.emit(
-                        UiEvents.NavigationEvent("Home")//HomeScreenDestination.route
-                    )
-                }
-                is Resource.Error->{
-                    UiEvents.SnackbarEvent(
-                        loginResult.result.message ?: "Error!"
-                    )
-                }
-                else -> {
 
-                }
+            if (loginResult.result is Resource.Success) {
+                Timber.tag("true").d("navigate home")
+//                _eventFlow.emit(
+//                    UiEvents.NavigationEvent("Home")//HomeScreenDestination.route
+//                )
+                _navigationEvents.emit(
+                    UiEvents.NavigationEvent("Home")
+                )
+            }
+            else if (loginResult.result is Resource.Error) {
+                Timber.tag("false").d("display error")
+                UiEvents.SnackbarEvent(
+                    loginResult.result.message ?: "Error!"
+                )
             }
         }
     }

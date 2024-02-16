@@ -77,23 +77,20 @@ fun LoginScreen(
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
-            when (event) {
-                is UiEvents.SnackbarEvent -> {
-                    snackbarHostState.showSnackbar(
-                        message = event.message,
-                        duration = SnackbarDuration.Short
-                    )
-                }
-                is UiEvents.NavigationEvent -> {
-                    navController.navigateTo(Destinations.Login)
-                    snackbarHostState.showSnackbar(
-                        message = "Login Successful",
-                        duration = SnackbarDuration.Short
-                    )
-                }
-
-                else -> {}
+            if (event is UiEvents.SnackbarEvent) {
+                snackbarHostState.showSnackbar(
+                    message = event.message,
+                    duration = SnackbarDuration.Short
+                )
             }
+            else if (event is UiEvents.NavigationEvent) {
+                navController.navigateTo(Destinations.Login)
+                snackbarHostState.showSnackbar(
+                    message = "Login Successful",
+                    duration = SnackbarDuration.Short
+                )
+            }
+//            else {}
         }
     }
 

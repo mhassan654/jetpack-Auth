@@ -13,7 +13,7 @@ import retrofit2.http.POST
 interface ApiService {
 
     @Headers("Accept:application/json")
-    @POST("api/login")
+    @POST("/api/login")
     suspend fun loginUser(
         @Body loginRequest: AuthRequest
     ) : AuthResponse
@@ -21,11 +21,11 @@ interface ApiService {
 
 
     @Headers("Accept:application/json")
-    @POST("api/register")
+    @POST("/api/register")
     suspend fun registerUser(
         @Body registerRequest: RegisterRequest
     ) : RegisterResponse
 
-    @GET("api/user/{id}")
+    @GET("/api/user/{id}")
     suspend fun getUserDetails()
 }
