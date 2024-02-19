@@ -49,7 +49,6 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.saavatech.jetpackauthentication.Destinations
 import com.saavatech.jetpackauthentication.DestinationsNavigator
 import com.saavatech.jetpackauthentication.common.UiEvents
@@ -84,7 +83,7 @@ fun RegisterScreen(
                     )
                 }
                 is UiEvents.NavigationEvent -> {
-                    navController.navigateTo(Destinations.Login)
+                    navController.navigateTo("Login")
                     snackbarHostState.showSnackbar(
                         message = "Register Successful",
                         duration = SnackbarDuration.Short
@@ -266,7 +265,7 @@ fun RegisterScreen(
             TextButton(
                 onClick = {
                     navController.navigateUp()
-                    navController.navigateTo(Destinations.Login)
+                    navController.navigateTo("Login")
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {

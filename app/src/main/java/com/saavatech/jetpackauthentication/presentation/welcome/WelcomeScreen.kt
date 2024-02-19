@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -24,11 +25,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.saavatech.jetpackauthentication.Destinations
 import com.saavatech.jetpackauthentication.DestinationsNavigator
 import com.saavatech.jetpackauthentication.R
-import com.saavatech.jetpackauthentication.enums.MainRoute
+import com.saavatech.jetpackauthentication.ui.theme.PurpleBg
 
 @Composable
 fun WelcomeScreen(navController: DestinationsNavigator){
@@ -68,7 +68,7 @@ fun WelcomeScreen(navController: DestinationsNavigator){
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = "Just playing around with jetpack compose",
+            text = "Just playing around with Authentication",
             fontSize = 18.sp,
             textAlign = TextAlign.Center,
             color = Color.Gray,
@@ -83,7 +83,7 @@ fun WelcomeScreen(navController: DestinationsNavigator){
 
             Button(
                 onClick = {
-                    navController.navigateTo(Destinations.Register)
+                    navController.navigateTo("Register")
                 },
                 // Uses ButtonDefaults.ContentPadding by default
                 contentPadding = PaddingValues(
@@ -94,8 +94,8 @@ fun WelcomeScreen(navController: DestinationsNavigator){
                 ),
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(
-//                    backgroundColor = Color.White,
-                    contentColor = Color.DarkGray)
+                    containerColor = PurpleBg,
+                    contentColor = Color.White)
             ) {
 
                 Text(
@@ -103,9 +103,11 @@ fun WelcomeScreen(navController: DestinationsNavigator){
                     fontSize = 20.sp
                 )
             }
+            
+            Spacer(modifier = Modifier.width(2.dp))
             Button(
                 onClick = {
-                    navController.navigateTo(Destinations.Login)
+                    navController.navigateTo("Login")
                 },
                 // Uses ButtonDefaults.ContentPadding by default
                 contentPadding = PaddingValues(
@@ -116,7 +118,7 @@ fun WelcomeScreen(navController: DestinationsNavigator){
                 ),
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(
-//                    backgroundColor = PurpleBg,
+                    containerColor = PurpleBg,
                     contentColor = Color.White)
             ) {
                 Text(

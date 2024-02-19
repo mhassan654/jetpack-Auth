@@ -5,8 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.google.gson.Gson
 import com.saavatech.jetpackauthentication.common.TextFieldState
 import com.saavatech.jetpackauthentication.common.UiEvents
+import com.saavatech.jetpackauthentication.domain.model.AuthResult
 import com.saavatech.jetpackauthentication.domain.use_case.LoginUseCase
 import com.saavatech.jetpackauthentication.domain.use_case.RegisterUseCase
 import com.saavatech.jetpackauthentication.util.Resource
@@ -26,12 +28,12 @@ class AuthViewModel @Inject constructor(
 ): ViewModel() {
 
 
-    private val _eventsFlow = MutableSharedFlow<UiEvents>()
-    val eventsFlow: SharedFlow<UiEvents> = _eventsFlow
-//
-//    // Function to trigger navigation
-    private val _navigationEvents = MutableSharedFlow<UiEvents.NavigationEvent>()
-    val navigationEvents: SharedFlow<UiEvents.NavigationEvent> = _navigationEvents
+//    private val _eventsFlow = MutableSharedFlow<UiEvents>()
+//    val eventsFlow: SharedFlow<UiEvents> = _eventsFlow
+////
+////    // Function to trigger navigation
+//    private val _navigationEvents = MutableSharedFlow<UiEvents.NavigationEvent>()
+//    val navigationEvents: SharedFlow<UiEvents.NavigationEvent> = _navigationEvents
 
     private var _loginState  = mutableStateOf(AuthState())
     val loginState: State<AuthState> = _loginState
@@ -87,16 +89,12 @@ class AuthViewModel @Inject constructor(
 
 
             if (loginResult.result is Resource.Success) {
-                Timber.tag("true").d("navigate home")
-//                _eventFlow.emit(
-//                    UiEvents.NavigationEvent("Home")//HomeScreenDestination.route
-//                )
-                _navigationEvents.emit(
+                _eventFlow.emit(
                     UiEvents.NavigationEvent("Home")
                 )
             }
             else if (loginResult.result is Resource.Error) {
-                Timber.tag("false").d("display error")
+                Timber.tag("false").d("should show snackbar")
                 UiEvents.SnackbarEvent(
                     loginResult.result.message ?: "Error!"
                 )
@@ -106,7 +104,7 @@ class AuthViewModel @Inject constructor(
 
     fun registerUser(){
         viewModelScope.launch {
-            _loginState.value = loginState.value.copy(isLoading = false)
+            _loginState.value = loginState.value.copy(isLoading = true)
 
             val registerResult = registerUseCase(
                 firstName = firstName.value.text,
