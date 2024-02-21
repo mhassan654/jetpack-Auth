@@ -1,8 +1,10 @@
 package com.saavatech.jetpackauthentication.data.models
 
 import com.saavatech.jetpackauthentication.data.remote.request.AuthRequest
+import com.saavatech.jetpackauthentication.data.remote.request.PostRequest
 import com.saavatech.jetpackauthentication.data.remote.request.RegisterRequest
 import com.saavatech.jetpackauthentication.data.remote.response.AuthResponse
+import com.saavatech.jetpackauthentication.data.remote.response.PostsResponse
 import com.saavatech.jetpackauthentication.data.remote.response.RegisterResponse
 import retrofit2.http.Body
 import retrofit2.http.FormUrlEncoded
@@ -26,6 +28,15 @@ interface ApiService {
         @Body registerRequest: RegisterRequest
     ) : RegisterResponse
 
+    @Headers("Accept:application/json")
+    @POST("/api/posts")
+    suspend fun addPost(
+        @Body postRequest: PostRequest
+    ) : PostsResponse
+
     @GET("/api/user/{id}")
     suspend fun getUserDetails()
+
+    @GET("/api/posts")
+    suspend fun getPosts()
 }
