@@ -37,6 +37,7 @@ interface ApiService {
     @GET("/api/user/{id}")
     suspend fun getUserDetails()
 
+    @Headers("Accept:application/json")
     @GET("/api/posts")
-    suspend fun getPosts()
+    suspend fun getPosts(): PostsResponse
 }

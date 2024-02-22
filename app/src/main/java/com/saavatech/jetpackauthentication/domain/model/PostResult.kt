@@ -1,5 +1,6 @@
 package com.saavatech.jetpackauthentication.domain.model
 
+import com.saavatech.jetpackauthentication.util.Resource
 import java.util.Date
 
 data class Post(
@@ -19,4 +20,8 @@ data class UserPost(
     val id: Int,
     val name: String,
     val image: String?
+)
+
+data class FetchPostResult(
+    val result: Resource<Unit>? = null
 )

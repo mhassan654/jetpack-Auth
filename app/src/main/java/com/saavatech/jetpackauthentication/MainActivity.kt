@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.saavatech.jetpackauthentication.enums.MainRoute
 import com.saavatech.jetpackauthentication.presentation.AuthViewModel
 import com.saavatech.jetpackauthentication.presentation.login.LoginScreen
+import com.saavatech.jetpackauthentication.presentation.posts.PostsScreen
 import com.saavatech.jetpackauthentication.presentation.register.RegisterScreen
 import com.saavatech.jetpackauthentication.presentation.welcome.WelcomeScreen
 import com.saavatech.jetpackauthentication.ui.theme.JetPackAuthenticationTheme
@@ -58,7 +59,7 @@ fun DefaultNavigation(){
         }
 
         composable(Destinations.Home.route){
-            HomeScreen()
+            PostsScreen(destinationsNavigator)
         }
 
         composable(MainRoute.Register.name){
@@ -85,5 +86,6 @@ sealed class Destinations(val route: String) {
     data object Register : Destinations("Register")
     data object Home : Destinations("Home")
     data object Welcome : Destinations("Welcome")
+    data object Posts : Destinations("Posts")
     // Define other destinations here
 }

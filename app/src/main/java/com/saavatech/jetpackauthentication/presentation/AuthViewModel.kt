@@ -27,14 +27,6 @@ class AuthViewModel @Inject constructor(
     private val registerUseCase: RegisterUseCase,
 ): ViewModel() {
 
-
-//    private val _eventsFlow = MutableSharedFlow<UiEvents>()
-//    val eventsFlow: SharedFlow<UiEvents> = _eventsFlow
-////
-////    // Function to trigger navigation
-//    private val _navigationEvents = MutableSharedFlow<UiEvents.NavigationEvent>()
-//    val navigationEvents: SharedFlow<UiEvents.NavigationEvent> = _navigationEvents
-
     private var _loginState  = mutableStateOf(AuthState())
     val loginState: State<AuthState> = _loginState
 

@@ -120,6 +120,10 @@ dependencies {
 
 //    implementation("io.github.raamcosta.compose-destinations:core:<version>")
 //    ksp("io.github.raamcosta.compose-destinations:ksp:<version>")
+
+    // define any required OkHttp artifacts without version
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
 }
 
 // Allow references to generated code
