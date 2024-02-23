@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.saavatech.jetpackauthentication.common.UiEvents
+import com.saavatech.jetpackauthentication.data.remote.response.PostsDataResponse
 import com.saavatech.jetpackauthentication.data.remote.response.PostsResponse
 import com.saavatech.jetpackauthentication.domain.model.FetchPostResult
 import com.saavatech.jetpackauthentication.domain.use_case.PostUseCase
@@ -28,8 +29,11 @@ class PostViewModel @Inject constructor(private val postUseCase: PostUseCase):Vi
         mutableStateOf(emptyList())
     val postsList: MutableState<List<PostsResponse>> = _postsList
 
-    private var _postsResource: MutableState<Resource<Unit>> = mutableStateOf(Resource.Loading())
-    val postsResource: MutableState<Resource<Unit>> = _postsResource
+//    private var _postsResource: MutableState<Resource<Unit>> = mutableStateOf(Resource.Loading())
+//    val postsResource: MutableState<Resource<Unit>> = _postsResource
+
+//    private var _postsResource: MutableState<Resource<List<PostsResponse>>> = mutableStateOf(Resource.Loading())
+//    val postsResource: MutableState<Resource<List<PostsResponse>>> = _postsResource
 
     private val  _eventFlow = MutableSharedFlow<UiEvents>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -65,28 +69,30 @@ class PostViewModel @Inject constructor(private val postUseCase: PostUseCase):Vi
             _postsState.value = postsState.value.copy(isLoading = false)
 
             when (fetchPostResult) {
-                is Resource.Success -> {
+                is PostsDataResponse.Success<*> -> {
                     // Update the postsResource with Success
-                    _postsResource.value = Resource.Success(Unit)
-//                    _postsList.value = fetchPostResult // Assuming fetchPostResult.data contains the list of posts
-                    Timber.tag("results fetched").d( postsResource.value.data.toString())
+//                    _postsResource.value = Resource.Success(fetchPostResult.data)
+                    _postsList.value = fetchPostResult // Assuming fetchPostResult.data contains the list of posts
+//                    Timber.tag("results fetched").d( postsResource.value.data.toString())
                 }
-                is Resource.Error -> {
-                    // Update the postsResource with Error
-//                    _postsResource.value = Resource.Error("Error!", fetchPostResult.message)
-                    // You might want to handle this error, for example, show a Snackbar
-                    UiEvents.SnackbarEvent(fetchPostResult.message ?: "Error!")
-                }
-                is Resource.Loading -> {
-                    // You're probably already setting isLoading in your postsState
-                }
+//                is Resource.Error -> {
+//                    // Update the postsResource with Error
+////                    _postsResource.value = Resource.Error("Error!", fetchPostResult.message)
+//                    // You might want to handle this error, for example, show a Snackbar
+//                    UiEvents.SnackbarEvent(fetchPostResult.message ?: "Error!")
+//                }
+//                is PostsDataResponse.Loading? -> {
+//                    // You're probably already setting isLoading in your postsState
+//                }
+
+                else -> {}
             }
         }
     }
 
 
 
-    private suspend fun getPosts(): Resource<Unit> {
-       return  postUseCase()
+    private suspend fun getPosts(): List<PostsResponse>? {
+       return  postUseCase().data
     }
 }
