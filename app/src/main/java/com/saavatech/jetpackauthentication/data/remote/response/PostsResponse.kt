@@ -11,6 +11,7 @@ data class PostsResponse(
     @SerializedName("created_at")   var createdAt: String,
     @SerializedName("comments_count")   var commentsCount: Int,
     @SerializedName("likes_count")   var likesCount: Int,
-    @SerializedName("user")   var user: UserPost,
-    @SerializedName("likes")   var likes: UserPost,
+    @SerializedName("user")   var user: Any,
+    @SerializedName("likes")   var likes: Any,
 )
+

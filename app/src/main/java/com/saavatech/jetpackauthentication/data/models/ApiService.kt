@@ -4,6 +4,7 @@ import com.saavatech.jetpackauthentication.data.remote.request.AuthRequest
 import com.saavatech.jetpackauthentication.data.remote.request.PostRequest
 import com.saavatech.jetpackauthentication.data.remote.request.RegisterRequest
 import com.saavatech.jetpackauthentication.data.remote.response.AuthResponse
+import com.saavatech.jetpackauthentication.data.remote.response.Data
 import com.saavatech.jetpackauthentication.data.remote.response.PostsResponse
 import com.saavatech.jetpackauthentication.data.remote.response.RegisterResponse
 import com.saavatech.jetpackauthentication.data.remote.response.SampleData
@@ -40,5 +41,5 @@ interface ApiService {
 
     @Headers("Accept:application/json")
     @GET("/api/posts")
-    suspend fun getPosts(): List<PostsResponse>
+    suspend fun getPosts(): List<Data>
 }
