@@ -49,7 +49,6 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.saavatech.jetpackauthentication.Destinations
 import com.saavatech.jetpackauthentication.DestinationsNavigator
 import com.saavatech.jetpackauthentication.common.UiEvents
@@ -71,6 +70,7 @@ fun RegisterScreen(
     val snackbarHostState = remember {
         SnackbarHostState()
     }
+
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(key1 = true) {
@@ -83,7 +83,7 @@ fun RegisterScreen(
                     )
                 }
                 is UiEvents.NavigationEvent -> {
-                    navController.navigateTo(Destinations.Login)
+                    navController.navigateTo("Login")
                     snackbarHostState.showSnackbar(
                         message = "Register Successful",
                         duration = SnackbarDuration.Short
@@ -141,11 +141,13 @@ fun RegisterScreen(
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                 ),
-                isError = emailState.error != null
+                isError = firstNameState.error != null
             )
-            if (emailState.error != "") {
+
+            //set first name error validation
+            if (firstNameState.error != "") {
                 Text(
-                    text = emailState.error ?: "",
+                    text = firstNameState.error ?: "",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.error,
                     textAlign = TextAlign.End,
@@ -165,11 +167,13 @@ fun RegisterScreen(
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                 ),
-                isError = emailState.error != null
+                isError = lastNameState.error != null
             )
-            if (emailState.error != "") {
+
+            // set last name error validation
+            if (lastNameState.error != "") {
                 Text(
-                    text = emailState.error ?: "",
+                    text = lastNameState.error ?: "",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.error,
                     textAlign = TextAlign.End,
@@ -261,7 +265,7 @@ fun RegisterScreen(
             TextButton(
                 onClick = {
                     navController.navigateUp()
-                    navController.navigateTo(Destinations.Login)
+                    navController.navigateTo("Login")
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {

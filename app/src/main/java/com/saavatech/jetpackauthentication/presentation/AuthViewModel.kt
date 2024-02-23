@@ -4,8 +4,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import com.google.gson.Gson
 import com.saavatech.jetpackauthentication.common.TextFieldState
 import com.saavatech.jetpackauthentication.common.UiEvents
+import com.saavatech.jetpackauthentication.domain.model.AuthResult
 import com.saavatech.jetpackauthentication.domain.use_case.LoginUseCase
 import com.saavatech.jetpackauthentication.domain.use_case.RegisterUseCase
 import com.saavatech.jetpackauthentication.util.Resource
@@ -14,20 +17,15 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
+
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    private val registerUseCase: RegisterUseCase
+    private val registerUseCase: RegisterUseCase,
 ): ViewModel() {
-
-//    private val _eventsFlow = MutableSharedFlow<UiEvents>()
-//    val eventsFlow: SharedFlow<UiEvents> = _eventsFlow
-//
-//    // Function to trigger navigation
-//    private val _navigationEvents = MutableSharedFlow<UiEvents.NavigationEvent>()
-//    val navigationEvents: SharedFlow<UiEvents.NavigationEvent> = _navigationEvents
 
     private var _loginState  = mutableStateOf(AuthState())
     val loginState: State<AuthState> = _loginState
@@ -65,7 +63,7 @@ class AuthViewModel @Inject constructor(
 
     fun loginUser(){
         viewModelScope.launch {
-            _loginState.value = loginState.value.copy(isLoading = false)
+            _loginState.value = loginState.value.copy(isLoading = true)
 
             val loginResult = loginUseCase(
                 email = emailState.value.text,
@@ -81,10 +79,24 @@ class AuthViewModel @Inject constructor(
                 _passwordState.value = passwordState.value.copy(error = loginResult.passwordError)
             }
 
+
+//            if (loginResult.result is Resource.Success) {
+//                _eventFlow.emit(
+//                    UiEvents.NavigationEvent("Home")
+//                )
+//            }
+//            else if (loginResult.result is Resource.Error) {
+//                UiEvents.SnackbarEvent(
+//                    loginResult.result.message ?: "Error!"
+//                )
+//
+//                Timber.tag("login error").d("should show snackbar")
+//            }
+
             when(loginResult.result){
                 is Resource.Success->{
                     _eventFlow.emit(
-                        UiEvents.NavigationEvent("home")//HomeScreenDestination.route
+                        UiEvents.NavigationEvent("Home")//HomeScreenDestination.route
                     )
                 }
                 is Resource.Error->{
@@ -93,7 +105,9 @@ class AuthViewModel @Inject constructor(
                     )
                 }
                 else -> {
-
+                    UiEvents.SnackbarEvent(
+                        loginResult.result?.message ?: "Error!"
+                    )
                 }
             }
         }
@@ -101,28 +115,44 @@ class AuthViewModel @Inject constructor(
 
     fun registerUser(){
         viewModelScope.launch {
-            _loginState.value = loginState.value.copy(isLoading = false)
+            _loginState.value = loginState.value.copy(isLoading = true)
 
             val registerResult = registerUseCase(
+                firstName = firstName.value.text,
+                lastName = lastName.value.text,
                 email = emailState.value.text,
-                password = passwordState.value.text
+                password = passwordState.value.text,
+                password_confirmation = passwordState.value.text,
             )
 
-//            println(registerResult)
-
+            // Set lenient mode to true to accept malformed JSON
             _loginState.value = loginState.value.copy(isLoading = false)
 
+            // set email error in state
             if (registerResult.emailError != null){
                 _emailState.value=emailState.value.copy(error = registerResult.emailError)
             }
+
+            // set first name state error
+            if (registerResult.firstNameError != null){
+                _firstName.value=firstName.value.copy(error = registerResult.firstNameError)
+            }
+
+            // set last name error
+            if (registerResult.lastNameError != null){
+                _lastName.value=lastName.value.copy(error = registerResult.lastNameError)
+            }
+
             if (registerResult.passwordError != null){
                 _passwordState.value = passwordState.value.copy(error = registerResult.passwordError)
             }
 
+            Timber.tag("results data").d(registerResult.result?.message.toString())
+
             when(registerResult.result){
                 is Resource.Success->{
                     _eventFlow.emit(
-                        UiEvents.NavigationEvent("home")//HomeScreenDestination.route
+                        UiEvents.NavigationEvent("Home")//HomeScreenDestination.route
                     )
                 }
                 is Resource.Error->{
@@ -131,10 +161,13 @@ class AuthViewModel @Inject constructor(
                     )
                 }
                 else -> {
-
+                    UiEvents.SnackbarEvent(
+                        registerResult.result?.message ?: "Error!"
+                    )
                 }
             }
         }
     }
 
 }
+
