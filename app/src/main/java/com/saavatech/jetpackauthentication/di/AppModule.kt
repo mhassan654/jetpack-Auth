@@ -77,7 +77,7 @@ object AppModule {
         apiService: ApiService,
         preferences: AuthPreferences,
     ): PostRepository{
-        return PostRepositoryImpl(apiService=apiService,preferences=preferences)
+        return PostRepositoryImpl(apiService=apiService)
     }
 
     @Provides

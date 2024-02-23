@@ -24,6 +24,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -82,45 +83,56 @@ fun LoginScreen(
     LaunchedEffect(key1 = true) {
 
         viewModel.eventFlow.collect { event ->
-//            if (event is UiEvents.SnackbarEvent) {
-//                snackbarHostState.showSnackbar(
-//                    message = event.message,
-//                    duration = SnackbarDuration.Short
-//                )
-//            }
-//
-//            else if (event is UiEvents.NavigationEvent) {
-//                navController.navigateTo(event.route)
-//                Timber.tag("home").d("i am home")
-//                snackbarHostState.showSnackbar(
-//                    message = "Login Successful",
-//                    duration = SnackbarDuration.Short
-//                )
-//            }
-            when (event) {
-                is UiEvents.SnackbarEvent -> {
-                    Timber.tag("snackbar").d("i am snackbar")
-                    snackbarHostState.showSnackbar(
-                        event.message,
-                        duration = SnackbarDuration.Short
-                    )
-                }
-                is UiEvents.NavigationEvent -> {
-                    navController.navigateTo(event.route)
-                    Timber.tag("snackbar").d("i am snackbar")
-                    snackbarHostState.showSnackbar("LaunchedEffect snackbar", "ok")
-                    snackbarHostState.showSnackbar(
-                        "Login Successful",
-                        duration = SnackbarDuration.Short
-                    )
-                }
+            if (event is UiEvents.SnackbarEvent) {
+//                Timber.tag("snackbar event").d("i am snackbar")
+                snackbarHostState.showSnackbar(
+                    message = event.message,
+                    duration = SnackbarDuration.Short
+                )
             }
-//            else {}
+
+            else if (event is UiEvents.NavigationEvent) {
+                navController.navigateTo(event.route)
+//                Timber.tag("home").d("i am home")
+                snackbarHostState.showSnackbar(
+                    message = "Login Successful",
+                    duration = SnackbarDuration.Short
+                )
+            }
+
+//            when (event) {
+//                is UiEvents.SnackbarEvent -> {
+//                    Timber.tag("snackbar").d("i am snackbar")
+//                    snackbarHostState.showSnackbar(
+//                        event.message,
+//                        duration = SnackbarDuration.Short
+//                    )
+//                }
+//                is UiEvents.NavigationEvent -> {
+//                    navController.navigateTo(event.route)
+//                    Timber.tag("snackbar").d("i am snackbar")
+//                    snackbarHostState.showSnackbar("LaunchedEffect snackbar", "ok")
+//                    snackbarHostState.showSnackbar(
+//                        "Login Successful",
+//                        duration = SnackbarDuration.Short
+//                    )
+//                }
+//
+//                else -> {}
+//            }
         }
     }
 
-    Scaffold( snackbarHost = {
-        SnackbarHost(hostState = snackbarHostState)
+    Scaffold(
+        snackbarHost = {
+        SnackbarHost(
+            hostState = snackbarHostState,
+            snackbar = {
+                Snackbar(modifier = Modifier.padding(16.dp)) {
+                    Text(text = "Snackbar Message")
+                }
+            }
+        )
     }) {
         Column(
             modifier = Modifier

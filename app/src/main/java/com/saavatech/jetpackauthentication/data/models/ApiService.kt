@@ -7,6 +7,7 @@ import com.saavatech.jetpackauthentication.data.remote.response.AuthResponse
 import com.saavatech.jetpackauthentication.data.remote.response.PostsDataResponse
 import com.saavatech.jetpackauthentication.data.remote.response.PostsResponse
 import com.saavatech.jetpackauthentication.data.remote.response.RegisterResponse
+import com.saavatech.jetpackauthentication.util.Resource
 import retrofit2.http.Body
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET

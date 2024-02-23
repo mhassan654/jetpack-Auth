@@ -80,16 +80,35 @@ class AuthViewModel @Inject constructor(
             }
 
 
-            if (loginResult.result is Resource.Success) {
-                _eventFlow.emit(
-                    UiEvents.NavigationEvent("Home")
-                )
-            }
-            else if (loginResult.result is Resource.Error) {
-                Timber.tag("false").d("should show snackbar")
-                UiEvents.SnackbarEvent(
-                    loginResult.result.message ?: "Error!"
-                )
+//            if (loginResult.result is Resource.Success) {
+//                _eventFlow.emit(
+//                    UiEvents.NavigationEvent("Home")
+//                )
+//            }
+//            else if (loginResult.result is Resource.Error) {
+//                UiEvents.SnackbarEvent(
+//                    loginResult.result.message ?: "Error!"
+//                )
+//
+//                Timber.tag("login error").d("should show snackbar")
+//            }
+
+            when(loginResult.result){
+                is Resource.Success->{
+                    _eventFlow.emit(
+                        UiEvents.NavigationEvent("Home")//HomeScreenDestination.route
+                    )
+                }
+                is Resource.Error->{
+                    UiEvents.SnackbarEvent(
+                        loginResult.result.message ?: "Error!"
+                    )
+                }
+                else -> {
+                    UiEvents.SnackbarEvent(
+                        loginResult.result?.message ?: "Error!"
+                    )
+                }
             }
         }
     }

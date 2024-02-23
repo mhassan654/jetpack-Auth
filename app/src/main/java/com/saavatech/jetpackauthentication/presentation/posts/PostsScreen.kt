@@ -40,7 +40,7 @@ fun PostsScreen(
 ){
 
     val postState = viewModel.postsState.value
-    val postsData = viewModel.postsList.value
+//    val postsData = viewModel.postsList.value
     val scope = rememberCoroutineScope()
     
     Scaffold {
@@ -77,9 +77,9 @@ fun PostsScreen(
             Spacer(modifier = Modifier.height(32.dp))
 
             LazyColumn(contentPadding = PaddingValues(16.dp)) {
-                items(postsData) { post ->
-                   Text(text = post.body)
-                }
+//                items(postsData) { post ->
+////                   Text(text = post.toString())
+//                }
             }
 
         }

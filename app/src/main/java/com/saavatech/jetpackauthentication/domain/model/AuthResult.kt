@@ -1,7 +1,7 @@
 package com.saavatech.jetpackauthentication.domain.model
 
+import com.saavatech.jetpackauthentication.data.remote.response.PostsDataResponse
 import com.saavatech.jetpackauthentication.util.Resource
-import java.util.Date
 
 data class AuthResult(
     val passwordError: String? = null,
@@ -15,5 +15,9 @@ data class RegisterResult(
     val firstNameError : String? = null,
     val lastNameError : String? = null,
     val result: Resource<Unit>? = null
+)
+
+data class PostsResult(
+    val result: Resource<PostsDataResponse>? =null
 )
 

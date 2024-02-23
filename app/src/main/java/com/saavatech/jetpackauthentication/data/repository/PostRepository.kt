@@ -10,22 +10,20 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class PostRepositoryImpl(
-    private val apiService: ApiService,
-    private val preferences: AuthPreferences
+    private val apiService: ApiService
 ): PostRepository {
     override suspend fun createPost(postsRequest: PostRequest): Resource<Unit> {
         TODO()
     }
 
-    override suspend fun fetchPosts(): PostsDataResponse {
-//        try {
-            return apiService.getPosts()
-//
-//            PostsDataResponse.Success(Unit)
-//        } catch (e: IOException) {
-//            PostsDataResponse.Error("${e.message}")
-//        } catch (e: HttpException) {
-//            PostsDataResponse.Error("${e.message}")
-//        }
+    override suspend fun fetchPosts(): Resource<PostsDataResponse> {
+        return try {
+           val res= apiService.getPosts()
+            Resource.Success(res)
+        } catch (e: IOException) {
+            Resource.Error("${e.message}")
+        } catch (e: HttpException) {
+            Resource.Error("${e.message}")
+        }
     }
 }
