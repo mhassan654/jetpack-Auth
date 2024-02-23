@@ -12,6 +12,7 @@ data class PostsResponse(
     @SerializedName("id")  var id: Int,
     @SerializedName("user_id")  var userId: Int,
     @SerializedName("body")  var body: String,
+    @SerializedName("title")  var title: String,
     @SerializedName("image")   var image: String,
     @SerializedName("created_at")   var createdAt: String,
     @SerializedName("comments_count")   var commentsCount: Int,
