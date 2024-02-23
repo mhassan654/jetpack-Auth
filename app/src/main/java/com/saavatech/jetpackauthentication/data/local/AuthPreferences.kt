@@ -14,7 +14,9 @@ class AuthPreferences(private val dataStore: DataStore<Preferences>) {
         }
     }
 
-
+    /**
+     * Get token saved from preferences
+     */
     suspend fun getAuthToken(): String? {
         return dataStore.data.first()[AUTH_KEY]?.firstOrNull()
     }

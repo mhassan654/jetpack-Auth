@@ -6,6 +6,7 @@ import com.saavatech.jetpackauthentication.data.remote.request.RegisterRequest
 import com.saavatech.jetpackauthentication.data.remote.response.AuthResponse
 import com.saavatech.jetpackauthentication.data.remote.response.PostsResponse
 import com.saavatech.jetpackauthentication.data.remote.response.RegisterResponse
+import com.saavatech.jetpackauthentication.data.remote.response.SampleData
 import retrofit2.http.Body
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -39,5 +40,5 @@ interface ApiService {
 
     @Headers("Accept:application/json")
     @GET("/api/posts")
-    suspend fun getPosts(): PostsResponse
+    suspend fun getPosts(): List<PostsResponse>
 }

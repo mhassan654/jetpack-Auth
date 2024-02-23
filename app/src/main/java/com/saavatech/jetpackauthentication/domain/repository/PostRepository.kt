@@ -6,6 +6,6 @@ import com.saavatech.jetpackauthentication.util.Resource
 
 interface PostRepository {
    suspend fun createPost(postsRequest: PostRequest): Resource<Unit>
-   suspend fun fetchPosts(): Resource<Unit>
+   suspend fun fetchPosts(): List<PostsResponse>
 
 }
