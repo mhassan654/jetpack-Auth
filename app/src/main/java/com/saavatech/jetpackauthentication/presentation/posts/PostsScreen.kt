@@ -46,8 +46,8 @@ fun PostsScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
+                .padding(16.dp),
+//                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally)
         {
             if (postState.isLoading){
