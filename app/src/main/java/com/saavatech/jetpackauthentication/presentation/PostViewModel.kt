@@ -26,9 +26,6 @@ class PostViewModel @Inject constructor(private val postUseCase: PostUseCase):Vi
     private var _postsState = mutableStateOf(PostsState())
     val postsState: State<PostsState> = _postsState
 
-    private var _postsList = mutableStateOf<List<PostsResponse>>()
-    val postsList: MutableState<List<PostsResponse>> = _postsList
-
     val postsListState: MutableState<List<PostsResponse>> =
         mutableStateOf(emptyList())
 
@@ -43,12 +40,9 @@ class PostViewModel @Inject constructor(private val postUseCase: PostUseCase):Vi
 
                 when (fetchPostResult.result) {
                     is Resource.Success ->
-                        Timber.tag("results fetched").d( fetchPostResult.result.data?.data.toString())
+                        postsListState.value = fetchPostResult.result.data?.data ?: emptyList()
 
                     is Resource.Error -> {
-                        // Update the postsResource with Error
-//                    _postsList.value = Resource.Error("Error!", fetchPostResult.message)
-                        // You might want to handle this error, for example, show a Snackbar
                         UiEvents.SnackbarEvent(fetchPostResult.result.message ?: "Error!")
                     }
                     is Resource.Loading -> {

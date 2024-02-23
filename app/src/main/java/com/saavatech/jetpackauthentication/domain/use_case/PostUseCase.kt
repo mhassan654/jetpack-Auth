@@ -9,5 +9,4 @@ class PostUseCase(private val repository: PostRepository) {
             result = repository.fetchPosts()
         )
     }
-
 }

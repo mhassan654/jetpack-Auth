@@ -40,15 +40,14 @@ fun PostsScreen(
 ){
 
     val postState = viewModel.postsState.value
-//    val postsData = viewModel.postsList.value
-    val scope = rememberCoroutineScope()
+    val postsData = viewModel.postsListState.value
     
     Scaffold {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
-//                .verticalScroll(rememberScrollState()),
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally)
         {
             if (postState.isLoading){
@@ -77,9 +76,9 @@ fun PostsScreen(
             Spacer(modifier = Modifier.height(32.dp))
 
             LazyColumn(contentPadding = PaddingValues(16.dp)) {
-//                items(postsData) { post ->
-////                   Text(text = post.toString())
-//                }
+                items(postsData) { post ->
+                   Text(text = post.body)
+                }
             }
 
         }
