@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName
 import com.saavatech.jetpackauthentication.domain.model.UserPost
 
 data class PostsDataResponse(
-    @SerializedName("data")  val data : List<PostsResponse>? = null,
+    @SerializedName("data")  val data : List<PostResponse>? = null,
     @SerializedName("message") val message: String? = null
 )
 
-data class PostsResponse(
+data class PostResponse(
     @SerializedName("id")  var id: Int,
     @SerializedName("user_id")  var userId: Int,
     @SerializedName("body")  var body: String,

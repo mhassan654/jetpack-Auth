@@ -1,6 +1,7 @@
 package com.saavatech.jetpackauthentication.presentation.posts
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -27,13 +28,13 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.saavatech.jetpackauthentication.DestinationsNavigator
-import com.saavatech.jetpackauthentication.data.remote.response.PostsResponse
+import com.saavatech.jetpackauthentication.data.remote.response.PostResponse
 import com.saavatech.jetpackauthentication.presentation.PostViewModel
 
 @Composable
 
 fun PostsScreen(
-    navController: DestinationsNavigator,
+    navigationCallback: DestinationsNavigator,
     viewModel: PostViewModel = hiltViewModel()
 ){
 
@@ -78,19 +79,20 @@ fun PostsScreen(
                    Post(post = post)
                 }
             }
-
         }
     }
 }
 
 @Composable
-fun Post(post: PostsResponse){
+fun Post(post: PostResponse){
     Card(
         shape = RoundedCornerShape(8.dp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 16.dp)
+            .clickable {  }
     ) {
+
         Column(
             modifier = Modifier.padding(10.dp)
         ) {
@@ -98,11 +100,11 @@ fun Post(post: PostsResponse){
                 painter = rememberAsyncImagePainter(post.image),
                 contentDescription =null,
                 modifier = Modifier
-                    .size(100.dp)
+                    .size(300.dp)
                     .padding(4.dp)
-                    .align(Alignment.CenterHorizontally)
+//                    .align(Alignment.CenterHorizontally)
             )
-
+            Text(text = post.image)
             Text(text = post.title)
             Text(text = post.body)
         }

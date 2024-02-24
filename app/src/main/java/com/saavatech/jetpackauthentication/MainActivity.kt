@@ -7,22 +7,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.saavatech.jetpackauthentication.enums.MainRoute
-import com.saavatech.jetpackauthentication.presentation.AuthViewModel
 import com.saavatech.jetpackauthentication.presentation.login.LoginScreen
 import com.saavatech.jetpackauthentication.presentation.posts.PostsScreen
 import com.saavatech.jetpackauthentication.presentation.register.RegisterScreen
 import com.saavatech.jetpackauthentication.presentation.welcome.WelcomeScreen
 import com.saavatech.jetpackauthentication.ui.theme.JetPackAuthenticationTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -87,5 +83,6 @@ sealed class Destinations(val route: String) {
     data object Home : Destinations("Home")
     data object Welcome : Destinations("Welcome")
     data object Posts : Destinations("Posts")
+    data object PostDetails : Destinations("Posts/{post_id}")
     // Define other destinations here
 }

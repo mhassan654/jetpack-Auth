@@ -5,11 +5,9 @@ import com.saavatech.jetpackauthentication.data.remote.request.PostRequest
 import com.saavatech.jetpackauthentication.data.remote.request.RegisterRequest
 import com.saavatech.jetpackauthentication.data.remote.response.AuthResponse
 import com.saavatech.jetpackauthentication.data.remote.response.PostsDataResponse
-import com.saavatech.jetpackauthentication.data.remote.response.PostsResponse
+import com.saavatech.jetpackauthentication.data.remote.response.PostResponse
 import com.saavatech.jetpackauthentication.data.remote.response.RegisterResponse
-import com.saavatech.jetpackauthentication.util.Resource
 import retrofit2.http.Body
-import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
@@ -34,7 +32,7 @@ interface ApiService {
     @POST("/api/posts")
     suspend fun addPost(
         @Body postRequest: PostRequest
-    ) : PostsResponse
+    ) : PostResponse
 
     @GET("/api/user/{id}")
     suspend fun getUserDetails()
@@ -42,4 +40,8 @@ interface ApiService {
     @Headers("Accept:application/json")
     @GET("/api/posts")
     suspend fun getPosts(): PostsDataResponse
+
+    @Headers("Accept:application/json")
+    @GET("/api/posts/{id}")
+    suspend fun getPostDetails(): PostResponse
 }
